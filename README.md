@@ -60,3 +60,26 @@ console.log(loop.prev().value) // 'c'
 var loop2 = loopkeys(3);
 console.log(loop2.target) // [0,1,2]
 ```
+## 临时代码
+
+```javascript
+var checkTime = function(i) { //将0-9的数字前面加上0，例1变为01 
+   if (i < 10) {
+       i = "0" + i;
+   }
+   return i;
+};
+function getLagtime(lagtime) {
+     var lagtime = lagtime || 0; //剩余的毫秒数
+     var days = parseInt(lagtime / 60 / 60 / 24, 10); //计算剩余的天数
+     var hours = parseInt(lagtime / 60 / 60 % 24, 10); //计算剩余的小时
+     var minutes = parseInt(lagtime / 60 % 60, 10); //计算剩余的分钟
+     var seconds = parseInt(lagtime % 60, 10); //计算剩余的秒数
+
+     days = days ? checkTime(days) + '天' : '';  
+     hours = checkTime(hours) + '小时';
+     minutes = checkTime(minutes) + '分';  
+     seconds = checkTime(seconds) + '秒';
+     return days + hours + minutes + seconds;
+}
+```
