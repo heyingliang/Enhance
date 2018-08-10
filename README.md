@@ -83,3 +83,8 @@ function getLagtime(lagtime) {
      return days + hours + minutes + seconds;
 }
 ```
+```javascript
+function omitTel($tel){
+            return preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
+        }
+```
