@@ -85,6 +85,207 @@ function getLagtime(lagtime) {
 ```
 ```javascript
 function omitTel($tel){
-            return preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
+    return preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
+}
+```
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue.js练习示例</title>
+	<script type="text/javascript" src="./assets/js/vue.js"></script>
+	<style type="text/css">
+	.tree{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        overflow-wrap: unset;
+        overflow-x: auto;
+    }
+    .tree:before,
+    .tree:after
+    {
+        content: '';
+        width: 20px;
+    }
+    .tree>.nodebox{
+        flex: 1;
+    }
+    .node{
+        position: relative;
+    }
+    .node .add-icon{
+        position: absolute;
+        bottom: -22px;
+        left: 50%;
+        margin-left: -10px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .node .text{
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 12px;
+        cursor: pointer;
+        outline: none;
+    }
+    .node .text.active{
+        box-shadow: 0px 0px 6px 0 #f76f6f;
+    }
+    .node .to-line{
+        position: absolute;
+        width: 0;
+        border-left: 1px solid #ccc;
+        left: 50%;
+        transform-origin: left bottom;
+    }
+    .nodebox{
+        display: inline-block;
+        vertical-align: top;
+        margin: 30px 10px;
+        text-align: center;
+        white-space: nowrap;
+    }
+	</style>
+</head>
+<body>
+	<div class="tree" id="tree">
+		<tree-dom v-bind:tree="tree" v-bind:key="tree.id"></tree-dom>
+	</div>
+	<script type="text/javascript">
+	var data = {
+    	'id': 1,
+    	'name': '节点1',
+        'root': true,
+    	'son': [
+    		{
+    			'id': 2,
+    			'name': '节点1.1',
+    			'son': []
+    		},
+    		{
+    			'id': 3,
+    			'name': '节点1.2',
+    			'son': [
+    				{
+    					'id': 5,
+    					'name': '节点1.2.1',
+    					'son': []
+    				},
+    				{
+    					'id': 6,
+    					'name': '节点1.2.2',
+    					'son': []
+    				}
+    			]
+    		},
+    		{
+    			'id': 4,
+    			'name': '节点1.3',
+    			'son': []
+    		}
+    	]
+    }
+    Vue.component('tree-dom',{
+        props: ['tree','parent','index','pid'],
+        template: `
+            <div class="nodebox">
+                <div class="node">
+                    <span class="text" ref='node' v-bind:class="{active: isSelect}" v-bind:data-parent="pid" v-bind:id="'node'+_uid" v-on:focus="isSelect=!isSelect" v-on:blur="isSelect=!isSelect" v-on:keyup.delete="deleteSelect(parent,index)" tabindex="-1">{{tree.name}}</span>
+                    <span class="to-line" v-if="!tree.root" v-bind:style="lineStyle"></span>
+                    <span class="add-icon" v-on:click="addChild(tree.son)">+</span>
+                </div>
+                <tree-dom v-for="(node,index) in tree.son" v-bind:index="index" v-bind:parent="tree.son" v-bind:tree="node" v-bind:key="node.id" v-bind:pid="'node'+_uid"></tree-dom>
+            </div>
+        `,
+        data: function(){
+            return{
+                isSelect: false,
+                lineStyle: {
+                    transform: 'rotate(0deg)',
+                    height: '0px',
+                    top:'0px',
+                },
+            }
+        },
+        methods: {
+            addChild: function(son){
+                son.push({
+                    'id': Math.random(),
+                    'name': '节点添加',
+                    'son': []
+                });
+            },
+            deleteSelect: function(parent,index){
+                console.log(parent);
+                // this.isSelect = !this.isSelect;
+                if (parent&&this.isSelect) {
+                    parent.splice(index,1);
+                }
+                
+            },
+        },
+    });
+	var app = new Vue({
+		el: '#tree',
+		data: {
+            tree: data
         }
+	});
+	// function getAngle(px,py,mx,my){//获得当前点和目标点坐标连线，与y轴正半轴之间的夹角
+ //        var x = Math.abs(px-mx);
+ //        var y = Math.abs(py-my);
+ //        var z = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+ //        var cos = y/z;
+ //        var radina = Math.acos(cos);//用反三角函数求弧度
+ //        var angle = Math.floor(180/(Math.PI/radina));//将弧度转换成角度
+
+ //        if(mx>px&&my>py){//目标点在第四象限
+ //            angle = 180 - angle;
+ //        }
+
+ //        if(mx==px&&my>py){//目标点在y轴负方向上
+ //            angle = 180;
+ //        }
+
+ //        if(mx>px&&my==py){//目标点在x轴正方向上
+ //            angle = 90;
+ //        }
+
+ //        if(mx<px&&my>py){//目标点在第三象限
+ //            angle = 180+angle;
+ //        }
+
+ //        if(mx<px&&my==py){//目标点在x轴负方向
+ //            angle = 270;
+ //        }
+
+ //        if(mx<px&&my<py){//目标点在第二象限
+ //            angle = 360 - angle;
+ //        }
+ //        return angle;
+ //    }
+	// window.onload = function(){
+	// 	var test1 = document.getElementById('test1').getBoundingClientRect();
+	// 	var test2 = document.getElementById('test2').getBoundingClientRect();
+	// 	var y = Math.abs(test2.top - test1.top - test1.height);//临边
+	// 	var x = Math.abs((test1.left + test1.width/2) - (test2.left + test2.width/2));//对边
+	// 	var len = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));//斜边
+	// 	var line = document.querySelector('.to-line');
+	// 	line.style.height = len+'px';
+	// 	line.style.top = -len+'px';
+	// 	line.style.transform = 'rotate('+getAngle(test2.left+test2.width/2, test2.top, test1.left+test1.width/2, test1.top+test1.height)+'deg)';
+	// 	console.log(y,x,len);
+	// 	console.log(getAngle(test2.top, test2.left+test2.width/2, test1.left+test1.width/2, test1.top+test1.height));
+	// }
+	</script>
+</body>
+</html>
 ```
