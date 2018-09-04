@@ -315,3 +315,27 @@ function omitTel($tel){
       })
   }
 ```
+```php
+/*post请求外部接口--示例*/
+public function apipostAction($url, $post_data = '') { //curl
+	$url = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=13_D-u9JpOK1pJYLVILfgx7SCsWNeyeav8ja0kxhuPy39HdxP77RgbNjll4jeZFjAWcVWvfoJUj9Ussr5xCj-Ou1MJ6wrcnFnBIOS4ixy7c5BEOX9YQEvH_Bht0d0_WaVa8CU9lD8wyensCv47LZCUcAIACFX';
+	$post_data = json_encode([
+	    "scene"=>'company=likjs',
+	    "width"=>360,
+	],true);
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	if ($post_data != '') {
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+	}
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	$file_contents = curl_exec($ch);
+	curl_close($ch);
+	// var_dump($file_contents);
+	echo 'data:image/png;base64,'.base64_encode($file_contents);
+}
+```
