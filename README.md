@@ -289,3 +289,29 @@ function omitTel($tel){
 </body>
 </html>
 ```
+```javascript
+/**
+   * 生成二维码
+   */
+  createCode:function(){
+      var that = this;
+      wx.request({
+          url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=13_D-u9JpOK1pJYLVILfgx7SCsWNeyeav8ja0kxhuPy39HdxP77RgbNjll4jeZFjAWcVWvfoJUj9Ussr5xCj-Ou1MJ6wrcnFnBIOS4ixy7c5BEOX9YQEvH_Bht0d0_WaVa8CU9lD8wyensCv47LZCUcAIACFX',
+          data: {
+              scene: 'company=likjs',
+              width: 360,
+          },
+          responseType: 'arraybuffer',
+          method: 'POST',
+          success: function(res){
+              console.log(res);
+              that.setData({
+                  codeurl: wx.arrayBufferToBase64(res.data),
+              });
+          },
+          error: function(res){
+              console.log(res);
+          }
+      })
+  }
+```
