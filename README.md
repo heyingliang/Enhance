@@ -339,3 +339,56 @@ public function apipostAction($url, $post_data = '') { //curl
 	echo 'data:image/png;base64,'.base64_encode($file_contents);
 }
 ```
+```html
+<template>
+    <table class="table">
+        <thead>
+            <th>用户名称</th>
+            <th>账号</th>
+            <th>绑定手机</th>
+            <th>客户类型</th>
+            <th>账户数</th>
+            <th>优惠券数</th>
+            <th>关联电站数</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>恒充管理-杨文狄</td>
+                <td>1000127998</td>
+                <td>13744809948</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+</template>
+<style type="text/css" lang="stylus">
+.table
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    color: #000;
+    tr,thead
+        height: 48px;
+        line-height: 48px;
+    thead
+        background-color: #ededed;
+        border-bottom: 2px solid #dbddde;
+    tr:hover
+        background-color: #eef4f7;
+    th,td
+        padding-left: 10px;
+    th:not(:last-child)
+        border-right: 1px solid #dbddde;
+</style>
+<script>
+export default{
+    name: 'table',
+    data(){
+        return{}
+    }
+}
+</script>
+```
