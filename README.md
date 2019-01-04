@@ -392,3 +392,27 @@ export default{
 }
 </script>
 ```
+```
+function getchild(menu) {
+    let arr = [];
+    menu.forEach(el => {
+        arr.push(el.id);
+        if (el.childIds) {
+            arr = arr.concat(getchild(el.childIds));
+        }
+    });
+    return arr;
+}
+function buld(arr) {
+    let menu = arr;
+    for (let index = 0; index < menu.length; index++) {
+        const el = menu[index];
+        if (el.childIds) {
+            menu[index].deepID = getchild(el.childIds);
+            menu[index].childIds = buld(menu[index].childIds);
+        }
+    }
+    return menu;
+}
+
+```
